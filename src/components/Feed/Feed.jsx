@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { getArticles } from '../../store/articlesSlice';
 
+import styles from './styles.module.scss';
+
 export const Feed = ({ loadData }) => {
     const dispatch = useDispatch();
     const articles = useSelector(getArticles);
@@ -16,7 +18,7 @@ export const Feed = ({ loadData }) => {
     }
 
     return (
-        <ul>
+        <ul className={styles.root}>
             {articles.map((article) => (
                 <li key={article.id}>
                     <div
