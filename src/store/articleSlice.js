@@ -1,11 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Api } from '../api';
-
-const api = new Api();
 
 export const fetchArticleById = createAsyncThunk(
     'articleById/fetch',
-    async (id) => {
+    async (id, { extra: { api } }) => {
         return await api.article(id);
     }
 );
@@ -20,6 +17,6 @@ export const articleByIdSlice = createSlice({
     },
 });
 
-export const getArticleById = id => state => state.articleById[id];
+export const getArticleById = (id) => (state) => state.articleById[id];
 
 export const { reducer: articleByIdReducer } = articleByIdSlice;
