@@ -1,27 +1,19 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchArticles, getArticles } from '../../store/articlesSlice';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+
+import { Post } from '../Post/Post';
+import { Feed } from '../Feed/Feed';
 
 export const App = () => {
 
-    const dispatch = useDispatch();
-    const articles = useSelector(getArticles);
-    useEffect(() => {
-        dispatch(fetchArticles())
-    }, [dispatch]);
-
-    if (articles === null) {
-        return 'loading'
-    }
-
     return (
-        <ul>
-            {articles.map((article) => (
-                <li
-                    key={article.id}
-                    dangerouslySetInnerHTML={{__html: article.leadData.textHtml}}
-                />
-            ))}
-        </ul>
+        <Switch>
+            <Route path="/post/:id">
+                <Post/>
+            </Route>
+            <Route path="/">
+                <Feed/>
+            </Route>
+        </Switch>
     );
 };
