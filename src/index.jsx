@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Api } from './api';
+import { App } from './components/App/App';
 
-const App = () => {
-    return 'Hello world'
-}
+const api = new Api();
 
-ReactDOM.render(<App/>, document.querySelector('body'));
+ReactDOM.render(<App api={api} />, document.querySelector('body'));
