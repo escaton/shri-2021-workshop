@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchArticles, getArticles } from '../../store/articlesSlice';
+import { getArticles } from '../../store/articlesSlice';
 
-export const Feed = () => {
+export const Feed = ({ loadData }) => {
     const dispatch = useDispatch();
     const articles = useSelector(getArticles);
     useEffect(() => {
-        dispatch(fetchArticles());
-    }, [dispatch]);
+        dispatch(loadData());
+    }, [loadData, dispatch]);
 
     if (articles === null) {
         return 'loading';

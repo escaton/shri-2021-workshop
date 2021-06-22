@@ -18,4 +18,10 @@ export class Api {
             page: 1,
         });
     }
+    article(id) {
+        return this.get(`/articles/${id}`, {
+            fl: 'en%2Cru',
+            hl: 'ru',
+        });
+    }
 }

@@ -1,19 +1,16 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { Post } from '../Post/Post';
-import { Feed } from '../Feed/Feed';
+import { routes } from '../../router';
 
 export const App = () => {
-
     return (
         <Switch>
-            <Route path="/post/:id">
-                <Post/>
-            </Route>
-            <Route path="/">
-                <Feed/>
-            </Route>
+            {routes.map((route) => (
+                <Route path={route.path} key={route.path}>
+                    <route.component loadData={route.loadData} />
+                </Route>
+            ))}
         </Switch>
     );
 };
