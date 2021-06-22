@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchArticles, getArticles } from '../../store/articlesSlice';
 
-export const App = ({ api }) => {
+export const App = () => {
 
-    const [articles, setArticles] = useState([]);
+    const dispatch = useDispatch();
+    const articles = useSelector(getArticles);
     useEffect(() => {
-        api.articles().then(({ articleIds, articleRefs }) => {
-            const articles = articleIds.map((id) => articleRefs[id]);
-            setArticles(articles);
-        });
-    });
+        dispatch(fetchArticles())
+    }, [dispatch]);
+
+    if (articles === null) {
+        return 'loading'
+    }
 
     return (
         <ul>

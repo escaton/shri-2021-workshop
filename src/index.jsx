@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Api } from './api';
+import { Provider } from 'react-redux';
 import { App } from './components/App/App';
+import { store } from './store';
 
-const api = new Api();
-
-ReactDOM.render(<App api={api} />, document.querySelector('body'));
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.querySelector('body')
+);
