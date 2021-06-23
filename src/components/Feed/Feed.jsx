@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 
 import { getArticles } from '../../store/articlesSlice';
 
+import styles from './styles.module.scss';
+
 export const Feed = ({ loadData }) => {
     const dispatch = useDispatch();
     const articles = useSelector(getArticles);
@@ -16,15 +18,19 @@ export const Feed = ({ loadData }) => {
     }
 
     return (
-        <ul>
+        <ul className={styles.list}>
             {articles.map((article) => (
-                <li key={article.id}>
+                <li key={article.id} className={styles.shortPost}>
                     <div
+                        className={styles.postInfo}
                         dangerouslySetInnerHTML={{
                             __html: article.leadData.textHtml,
                         }}
                     />
-                    <Link to={`/post/${article.id}`}>
+                    <Link
+                        to={`/post/${article.id}`}
+                        className={styles.postLink}
+                    >
                         <span
                             dangerouslySetInnerHTML={{
                                 __html: article.leadData.buttonTextHtml,
