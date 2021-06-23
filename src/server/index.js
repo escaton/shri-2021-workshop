@@ -1,12 +1,14 @@
 import http from 'http';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
+import fetch from 'node-fetch';
 
 import { App } from '../components/App/App';
-import { store } from '../store';
+import { createStore } from '../store';
+import { routes } from '../router';
 
 const htmlTemplate = (innerHTml) => `
 <!DOCTYPE html>
@@ -20,11 +22,24 @@ const htmlTemplate = (innerHTml) => `
 </html>
 `;
 
-http.createServer((req, res) => {
-    const context = {};
+http.createServer(async (req, res) => {
+    const store = createStore({fetcher: fetch})
+
+    const matchedRoute = routes.find((route) => {
+        const match = matchPath(req.url, route);
+        return match;
+    });
+
+    const { params } = matchPath(req.url, matchedRoute);
+
+    if (matchedRoute && matchedRoute.loadData) {
+        await store.dispatch(matchedRoute.loadData(params));
+    }
+
+    const routerContext = {};
     const reactHtml = ReactDOMServer.renderToString(
         <StyleContext.Provider value={{ insertCss: () => {} }}>
-            <StaticRouter location={req.url} context={context}>
+            <StaticRouter location={req.url} context={routerContext}>
                 <Provider store={store}>
                     <App />
                 </Provider>

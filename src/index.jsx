@@ -4,12 +4,14 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import { App } from './components/App/App';
-import { store } from './store';
+import { createStore } from './store';
 
 const insertCss = (...styles) => {
-  const removeCss = styles.map(style => style._insertCss())
-  return () => removeCss.forEach(dispose => dispose())
-}
+    const removeCss = styles.map((style) => style._insertCss());
+    return () => removeCss.forEach((dispose) => dispose());
+};
+
+const store = createStore({ fetcher: fetch });
 
 ReactDOM.hydrate(
     <StyleContext.Provider value={{ insertCss }}>

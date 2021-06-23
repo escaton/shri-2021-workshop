@@ -8,7 +8,7 @@ export const routes = [
     {
         path: '/post/:id',
         component: Post,
-        loadData: (id) => fetchArticleById(id),
+        loadData: ({ id }) => fetchArticleById(id),
     },
     {
         path: '/',

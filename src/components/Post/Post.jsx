@@ -10,13 +10,13 @@ import styles from './styles.module.scss';
 export const Post = ({ loadData }) => {
     useStyles(styles);
     
-    const { id: postId } = useParams();
+    const routeParams = useParams();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(loadData(postId));
-    }, [postId, dispatch]);
+        dispatch(loadData(routeParams));
+    }, [routeParams, dispatch]);
 
-    const post = useSelector(getArticleById(postId));
+    const post = useSelector(getArticleById(routeParams.id));
 
     if (!post) {
         return 'loading';

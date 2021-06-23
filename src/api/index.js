@@ -1,12 +1,15 @@
 const API = 'https://habr.com/kek/v2';
 
 export class Api {
+    constructor(fetcher) {
+        this.fetch = fetcher;
+    }
     async get(url, params) {
         let fullUrl = API + url;
         if (params) {
             fullUrl += '?' + new URLSearchParams(params).toString();
         }
-        const response = await fetch(fullUrl);
+        const response = await this.fetch(fullUrl);
         return await response.json();
     }
     articles() {
