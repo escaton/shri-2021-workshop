@@ -13,20 +13,20 @@ const CSSModuleLoader = {
         importLoaders: 2,
         camelCase: true,
         sourceMap: devMode,
-    }
-}
+    },
+};
 
 const CSSLoader = {
     loader: 'css-loader',
     options: {
-        modules: "global",
+        modules: 'global',
         importLoaders: 2,
         camelCase: true,
         sourceMap: devMode,
-    }
-}
+    },
+};
 
-const autoprefixer = require('autoprefixer')
+const autoprefixer = require('autoprefixer');
 const PostCSSLoader = {
     loader: 'postcss-loader',
     options: {
@@ -34,33 +34,54 @@ const PostCSSLoader = {
         postcssOptions: {
             plugins: () => [
                 autoprefixer({
-                    browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
-                })
-            ]
-        }
-    }
-}
+                    browsers: [
+                        '>1%',
+                        'last 4 versions',
+                        'Firefox ESR',
+                        'not ie < 9',
+                    ],
+                }),
+            ],
+        },
+    },
+};
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const styleLoader = devMode ? 'style-loader' : MiniCssExtractPlugin.loader;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const styleLoader = devMode
+    ? 'isomorphic-style-loader'
+    : MiniCssExtractPlugin.loader;
 
 module.exports = {
     devServer: {
         historyApiFallback: true,
         writeToDisk: true,
-        injectClient: () => false,
+        injectClient: false,
+        index: '',
+        proxy: {
+            context: () => true,
+            target: 'http://localhost:8081',
+            bypass: (req) => {
+                if (req.headers.accept.indexOf('html') !== -1) {
+                    return null;
+                }
+                return req.url;
+            },
+        },
     },
     entry: {
-        index: resolveApp('index.jsx'),
+        index: [
+            'webpack-dev-server/client?http://localhost:8080',
+            resolveApp('index.jsx'),
+        ],
         server: resolveApp('server/index.js'),
     },
     output: {
-        publicPath: '/'
+        publicPath: '/',
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    externalsPresets: { node: true },
+    externals: { http: 'commonjs2 http' },
     plugins: [new HtmlWebpackPlugin()],
     module: {
         rules: [
@@ -72,12 +93,17 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 exclude: /\.module\.(sa|sc|c)ss$/,
-                use: [styleLoader, CSSLoader, PostCSSLoader, "sass-loader"]
+                use: [styleLoader, CSSLoader, PostCSSLoader, 'sass-loader'],
             },
             {
                 test: /\.module\.(sa|sc|c)ss$/,
-                use: [styleLoader, CSSModuleLoader, PostCSSLoader, "sass-loader"]
-            }
+                use: [
+                    styleLoader,
+                    CSSModuleLoader,
+                    PostCSSLoader,
+                    'sass-loader',
+                ],
+            },
         ],
     },
 };

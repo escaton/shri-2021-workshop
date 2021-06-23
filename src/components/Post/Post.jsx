@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import useStyles from 'isomorphic-style-loader/useStyles';
 
 import { getArticleById } from '../../store/articleSlice';
 
 import styles from './styles.module.scss';
 
 export const Post = ({ loadData }) => {
+    useStyles(styles);
+    
     const { id: postId } = useParams();
     const dispatch = useDispatch();
     useEffect(() => {

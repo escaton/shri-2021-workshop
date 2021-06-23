@@ -1,11 +1,14 @@
 import React from 'react';
 import { Switch, Route, NavLink } from 'react-router-dom';
+import useStyles from 'isomorphic-style-loader/useStyles';
 
 import { routes } from '../../router';
 
 import styles from './styles.module.scss';
 
 export const App = () => {
+    useStyles(styles);
+    
     return (
         <div className={styles.root}>
             <NavLink to="/" exact className={styles.headerLink}>

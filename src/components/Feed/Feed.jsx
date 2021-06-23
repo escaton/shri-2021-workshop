@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import useStyles from 'isomorphic-style-loader/useStyles';
 
 import { getArticles } from '../../store/articlesSlice';
 
 import styles from './styles.module.scss';
 
 export const Feed = ({ loadData }) => {
+    useStyles(styles);
+
     const dispatch = useDispatch();
     const articles = useSelector(getArticles);
     useEffect(() => {
