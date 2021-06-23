@@ -11,7 +11,10 @@ const insertCss = (...styles) => {
     return () => removeCss.forEach((dispose) => dispose());
 };
 
-const store = createStore({ fetcher: fetch });
+const store = createStore({
+    fetcher: fetch.bind(window),
+    preloadedState: window.__SERVER_STATE,
+});
 
 ReactDOM.hydrate(
     <StyleContext.Provider value={{ insertCss }}>

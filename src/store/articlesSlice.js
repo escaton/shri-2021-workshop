@@ -5,6 +5,11 @@ export const fetchArticles = createAsyncThunk(
     async (_, { extra: { api } }) => {
         const { articleIds, articleRefs } = await api.articles();
         return articleIds.map((id) => articleRefs[id]);
+    },
+    {
+        condition(_, { getState }) {
+            return !getArticles(getState());
+        },
     }
 );
 

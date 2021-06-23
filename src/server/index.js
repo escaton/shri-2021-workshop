@@ -5,17 +5,21 @@ import { StaticRouter, matchPath } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import fetch from 'node-fetch';
+import serialize from 'serialize-javascript';
 
 import { App } from '../components/App/App';
 import { createStore } from '../store';
 import { routes } from '../router';
 
-const htmlTemplate = (innerHTml) => `
+const htmlTemplate = (innerHTml, state) => `
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Хабр</title>
+    <script>
+    window.__SERVER_STATE = ${serialize(state)}
+    </script>
     <script src="/index.js" defer></script>
   </head>
   <body>${innerHTml}</body>
@@ -47,6 +51,6 @@ http.createServer(async (req, res) => {
         </StyleContext.Provider>
     );
 
-    res.write(htmlTemplate(reactHtml));
+    res.write(htmlTemplate(reactHtml, store.getState()));
     res.end();
 }).listen(8081);

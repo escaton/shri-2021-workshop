@@ -81,7 +81,11 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.jsx'],
     },
-    externals: { http: 'commonjs2 http', 'node-fetch': 'commonjs2 node-fetch' },
+    externals: {
+        http: 'commonjs2 http',
+        'node-fetch': 'commonjs2 node-fetch',
+        'serialize-javascript': 'commonjs2 serialize-javascript'
+    },
     plugins: [new HtmlWebpackPlugin()],
     module: {
         rules: [

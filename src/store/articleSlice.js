@@ -4,6 +4,11 @@ export const fetchArticleById = createAsyncThunk(
     'articleById/fetch',
     async (id, { extra: { api } }) => {
         return await api.article(id);
+    },
+    {
+        condition(id, { getState }) {
+            return !getArticleById(id)(getState());
+        },
     }
 );
 

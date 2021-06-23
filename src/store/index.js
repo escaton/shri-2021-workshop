@@ -9,6 +9,7 @@ export const createStore = options => configureStore({
         articles: articlesReducer,
         articleById: articleByIdReducer,
     },
+    preloadedState: options.preloadedState,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             thunk: { extraArgument: { api: new Api(options.fetcher) } },
