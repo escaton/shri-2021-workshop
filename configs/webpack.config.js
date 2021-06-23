@@ -47,14 +47,20 @@ const styleLoader = devMode ? 'style-loader' : MiniCssExtractPlugin.loader;
 module.exports = {
     devServer: {
         historyApiFallback: true,
+        writeToDisk: true,
+        injectClient: () => false,
     },
-    entry: { index: resolveApp('index.jsx') },
+    entry: {
+        index: resolveApp('index.jsx'),
+        server: resolveApp('server/index.js'),
+    },
     output: {
         publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx'],
     },
+    externalsPresets: { node: true },
     plugins: [new HtmlWebpackPlugin()],
     module: {
         rules: [
