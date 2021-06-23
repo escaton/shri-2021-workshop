@@ -20,8 +20,12 @@ export const Post = ({ loadData }) => {
     }
 
     return (
-        <div className={styles.root}>
-            <h1>Пост</h1>
-            <div className={styles.post} dangerouslySetInnerHTML={{ __html: post.textHtml }}></div>
-        </div>);
+        <div>
+            <h1 dangerouslySetInnerHTML={{ __html: post.titleHtml }}></h1>
+            <div
+                className={styles.post}
+                dangerouslySetInnerHTML={{ __html: post.textHtml }}
+            ></div>
+        </div>
+    );
 };

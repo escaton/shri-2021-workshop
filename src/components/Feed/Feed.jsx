@@ -18,27 +18,27 @@ export const Feed = ({ loadData }) => {
     }
 
     return (
-        <div className={styles.root}>
-            <h1>Посты</h1>
-            <ul className={styles.list}>
-                {articles.map((article) => (
-                    <li key={article.id} className={styles.shortPost}>
-                        <div
-                            className={styles.postInfo}
+        <ul className={styles.list}>
+            {articles.map((article) => (
+                <li key={article.id} className={styles.shortPost}>
+                    <div
+                        className={styles.postInfo}
+                        dangerouslySetInnerHTML={{
+                            __html: article.leadData.textHtml,
+                        }}
+                    />
+                    <Link
+                        to={`/post/${article.id}`}
+                        className={styles.postLink}
+                    >
+                        <span
                             dangerouslySetInnerHTML={{
-                                __html: article.leadData.textHtml,
+                                __html: article.leadData.buttonTextHtml,
                             }}
                         />
-                        <Link to={`/post/${article.id}`} className={styles.postLink}>
-                            <span
-                                dangerouslySetInnerHTML={{
-                                    __html: article.leadData.buttonTextHtml,
-                                }}
-                            />
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    </Link>
+                </li>
+            ))}
+        </ul>
     );
 };
