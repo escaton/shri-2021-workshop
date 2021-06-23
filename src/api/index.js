@@ -1,5 +1,7 @@
 const API = 'https://habr.com/kek/v2';
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 export class Api {
     constructor(fetcher) {
         this.fetch = fetcher;
@@ -9,6 +11,7 @@ export class Api {
         if (params) {
             fullUrl += '?' + new URLSearchParams(params).toString();
         }
+        // await sleep(3 * 1000)
         const response = await this.fetch(fullUrl);
         return await response.json();
     }

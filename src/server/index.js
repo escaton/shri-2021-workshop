@@ -11,22 +11,28 @@ import { App } from '../components/App/App';
 import { createStore } from '../store';
 import { routes } from '../router';
 
-const htmlTemplate = (innerHTml, state) => `
+
+const headTemplate = `
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Хабр</title>
+    <script src="/index.js" defer></script>
+`
+
+const tailTemplate = (innerHTml, state) => `
     <script>
     window.__SERVER_STATE = ${serialize(state)}
     </script>
-    <script src="/index.js" defer></script>
   </head>
   <body>${innerHTml}</body>
 </html>
 `;
 
 http.createServer(async (req, res) => {
+    res.write(headTemplate);
+
     const store = createStore({fetcher: fetch})
 
     const matchedRoute = routes.find((route) => {
@@ -51,6 +57,6 @@ http.createServer(async (req, res) => {
         </StyleContext.Provider>
     );
 
-    res.write(htmlTemplate(reactHtml, store.getState()));
+    res.write(tailTemplate(reactHtml, store.getState()));
     res.end();
 }).listen(8081);
